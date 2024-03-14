@@ -48,9 +48,14 @@ const filtersArray = [
 
 const Filters = () => {
   const [filterToggal, setFilterToggal] = useState(false);
-  const [productList, setProductList] = useState(
-    JSON.parse(localStorage.getItem("product-list")) || []
-  );
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    const storedProductList = JSON.parse(localStorage.getItem("product-list"));
+    if (storedProductList) {
+      setProductList(storedProductList);
+    }
+  }, []);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -78,7 +83,11 @@ const Filters = () => {
               alt="Arrow Left"
             />{" "}
             <h2 className="font-[400] text-[#888792] underline">
-             <span className="hidden lg:inline-block"> {filterToggal ? "HIDE " : "SHOW "}</span> <span>FILTER</span>
+              <span className="hidden lg:inline-block">
+                {" "}
+                {filterToggal ? "HIDE " : "SHOW "}
+              </span>{" "}
+              <span>FILTER</span>
             </h2>
           </button>
         </div>
@@ -90,11 +99,9 @@ const Filters = () => {
           <select
             name="language"
             id="language"
-            className="font-bold text-gray-700 uppercase w-[95%] "
+            className="font-bold text-gray-700 uppercase md:w-auto w-[95%] "
           >
-            <option value="recommended" >
-              RECOMMENDED
-            </option>
+            <option value="recommended">RECOMMENDED</option>
             <option value="newestFirst">Newest first</option>
             <option value="priceHighToLow">Price: high to low</option>
             <option value="priceLowToHigh">Price: low to high</option>
